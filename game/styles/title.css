@@ -1,0 +1,30 @@
+.main__menu{
+	display: flex;
+  	justify-content: space-evenly;
+  	max-width: 1024px;
+  	margin:0 auto;
+  	margin-top: 50px;
+}
+.intro_text{
+	text-align: center;
+	color:white;
+	margin-top: 50px;
+	font-size:18pt;
+
+}
+.button{
+  color:white;  
+  font-size: 20pt;
+}
+.button:hover{
+	text-shadow: 0px 0px 10px #FFFFFF;
+}
+#play:hover{
+	
+	color:lime;
+	cursor:pointer;
+}
+#options:hover{
+	color:red;
+	cursor:not-allowed;
+}

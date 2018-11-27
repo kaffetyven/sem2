@@ -1,0 +1,36 @@
+.header{
+  text-align: center;
+  color:white;
+  font-size: 28pt;
+  font-weight: normal;
+}
+.card__container{
+  margin: 0 auto;
+  display: flex;
+  
+  max-width: 1024px;
+  flex-wrap: wrap;
+  
+}
+.card{
+  max-width: 278px;
+  border:solid white 1px;
+  padding:10px;
+  border-radius: 7px;
+  background-color: #383838;
+  margin:20px;
+}
+.card:hover{
+  box-shadow: 0px 1px 8px 4px rgba(255, 255, 255, 0.8);
+}
+.card__bottom{
+  margin-top: 5px;
+  margin-left: 10px;
+}
+.card__text{
+  flex:3;
+  color:white;
+}
+.card__icon{
+  flex:1;
+}

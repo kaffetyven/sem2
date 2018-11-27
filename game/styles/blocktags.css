@@ -1,0 +1,70 @@
+.body{
+	background: url(../backgrounds/background.png) no-repeat center right fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.body--victory{
+	background: url(../backgrounds/victory.jpg) no-repeat center right fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+@font-face {
+    font-family: logo;
+    src: url(../fonts/NECKROMANCER-Regular.ttf);
+}
+@font-face {
+    font-family: header;
+    src: url(../fonts/RINGM___.TTF);
+}
+@font-face {
+    font-family: buttontext;
+    src: url(../fonts/SEVESBRG.TTF);
+}
+@font-face {
+    font-family: gametext;
+    src: url(../fonts/Chapbook-Regular.otf);
+}
+@font-face {
+    font-family: names;
+    src: url(../fonts/ArgosGeorge.ttf);
+}
+
+
+img{
+	width:100%;
+}
+h1{
+	font-family: logo;
+	color:white;
+	text-align: center;
+	font-weight: normal;
+	font-size: 50pt;
+}
+h2{
+	font-family: header;
+}
+a{
+	font-family: buttontext;
+}
+p{
+	font-family: gametext;
+}
+.tile__number{
+	font-family: header;
+}
+.card__name{
+	font-family: names;
+	color:white;
+	font-size: 15pt;
+	margin:0;
+	margin-bottom: 5px;
+	padding:5px;
+	font-weight: normal;
+}
+.container{
+	display: flex;
+}

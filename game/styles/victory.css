@@ -1,0 +1,40 @@
+.header{
+  color:white;
+  text-align: center;
+  margin-top: 50px;
+  font-weight: normal;
+  font-size: 40pt;
+}
+.victory_card{
+  margin:30px;
+  margin: 0 auto;
+  max-width: 1024px;
+  background-color: #383838;
+  padding:10px;  
+  border-radius: 8px;
+  border: solid green 2px;
+  
+}
+.img__container{
+  flex:1;
+}
+.text__container{
+  flex:2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;  
+}
+.text{
+  text-align: center;
+  color:yellow;
+  font-size: 20pt;
+  padding:10px;
+}
+.button__container{
+  display: flex;
+  justify-content: space-around;
+}
+.button{
+  color:white;
+  font-size: 20pt;  
+}

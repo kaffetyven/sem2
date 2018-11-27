@@ -1,0 +1,67 @@
+p{
+  margin:0;
+}
+.game{
+  margin:0 auto;
+  max-width: 1024px;
+}
+
+.status{
+  justify-content: center;
+}
+.status__text{  
+  color:white;
+  font-weight: normal;
+  margin:4px;
+}
+.actionbar{
+  display: flex;
+  justify-content: center;
+  padding:5px;
+  margin-top: 5px;
+}
+.button{
+  color:white;
+}
+.gameboard{
+  border:solid white 1px;
+  max-width: 318px;
+  margin:0 auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.row{
+  display: flex;
+}
+.reverse{
+  flex-direction: row-reverse;
+}
+.tile{
+  height:50px;
+  width:50px;
+  border: solid red 1px;
+  margin:4px;
+  background-color: #414042;
+  font-family: header;
+  color:white;
+  border-radius: 5px;
+  position: relative;
+  padding-left: 4px;
+}
+.trap{
+
+}
+.player{
+  position: absolute;  
+  width:35px;
+}
+.player1{
+  right:5px;
+  bottom:20px;
+}
+.player2{
+  left:5px;
+  bottom:2px;
+}
