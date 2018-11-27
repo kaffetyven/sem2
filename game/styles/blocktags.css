@@ -47,6 +47,9 @@ h1{
 h2{
 	font-family: header;
 }
+h3{
+	font-family: names;
+}
 a{
 	font-family: buttontext;
 }

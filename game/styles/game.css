@@ -34,6 +34,7 @@ p{
 }
 .row{
   display: flex;
+  justify-content: center;
 }
 .reverse{
   flex-direction: row-reverse;
@@ -51,7 +52,15 @@ p{
   padding-left: 4px;
 }
 .trap{
-
+  background-image: url(../asset/trap.png);
+  background-position: center;
+  background-size: contain;
+}
+.ramsey{
+  background-image: url(../asset/ramsey.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .player{
   position: absolute;  
@@ -64,4 +73,52 @@ p{
 .player2{
   left:5px;
   bottom:2px;
+}
+.goal__text{
+  margin-left: 3px;
+  font-size:14pt;
+  margin-top:30%;
+}
+@media only screen and (min-width: 700px) {
+  .gameboard{
+    max-width: 700px;
+  }
+  .tile{
+    max-width: 700px;
+    height:110px;
+    width:110px;
+    margin:10px;
+    font-size: 16pt;
+  }
+  .player{
+    width:60px;
+  }
+  .goal__text{
+    text-align: center;
+    font-weight: normal;
+    margin-top:40%;
+    font-size: 25pt;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .gameboard{
+    max-width: 600px;
+  }
+  .tile{
+    max-width: 700px;
+    height:80px;
+    width:80px;
+    margin:10px;
+    font-size: 16pt;
+  }
+  .player{
+    width:50px;
+  }
+  .goal__text{
+    text-align: center;
+    font-weight: normal;
+    margin-top:35%;
+    font-size: 20pt;
+  }
+
 }

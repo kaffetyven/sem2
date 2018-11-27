@@ -31,10 +31,36 @@
   padding:10px;
 }
 .button__container{
-  display: flex;
+  
   justify-content: space-around;
 }
 .button{
   color:white;
   font-size: 20pt;  
+}
+#mobile{
+  display: none;
+}
+#desktop{
+  display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+  .header{
+    font-size: 25pt;
+  }
+  .text{
+    font-size: 14pt;
+  }
+  .button{
+    font-size: 15pt;
+  }
+  #mobile{
+    display: flex;
+    margin-top: 10px;
+    
+  }
+  #desktop{
+  display: none;
+}
 }
