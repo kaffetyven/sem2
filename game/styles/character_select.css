@@ -29,6 +29,7 @@
 }
 .card:hover{
   box-shadow: 0px 1px 8px 4px rgba(255, 255, 255, 0.8);
+  cursor: pointer;
 }
 .card__bottom{
   margin-top: 5px;

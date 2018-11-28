@@ -7,7 +7,9 @@ p{
 }
 
 .status{
-  justify-content: center;
+  justify-content: space-around;
+  
+
 }
 .status__text{  
   color:white;
@@ -18,7 +20,19 @@ p{
   display: flex;
   justify-content: center;
   padding:5px;
-  margin-top: 5px;
+  border-radius: 5px;
+  background-color: green;
+  max-width: 200px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.actionbar:hover{
+  background-color: darkgreen;
+  cursor:pointer;
+  box-shadow: 0px 0.5px 4px 2px white;
+}
+#desktop__button{
+  display: none;
 }
 .button{
   color:white;
@@ -27,6 +41,7 @@ p{
   border:solid white 1px;
   max-width: 318px;
   margin:0 auto;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -99,6 +114,10 @@ p{
     margin-top:40%;
     font-size: 25pt;
   }
+  .actionbar{
+    max-width: 500px;
+    padding:10px;
+  }
 }
 @media only screen and (min-width: 1024px) {
   .gameboard{
@@ -120,5 +139,19 @@ p{
     margin-top:35%;
     font-size: 20pt;
   }
-
+  .status{
+    max-width: 600px;
+    margin:0 auto;
+    align-items: center;
+  }
+  .button{
+    
+  }
+  #mobile__button{
+    display: none;
+  }
+  #desktop__button{
+    display: flex;
+    margin: 0;
+  }
 }

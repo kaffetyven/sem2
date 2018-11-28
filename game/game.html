@@ -10,7 +10,8 @@
 <body>
 	<div class="game">
 		<div class="status container">
-			<h2 class="status__text">Someones Turn</h2>
+			<div><h2 class="status__text">Someones Turn</h2></div>
+			<div class="actionbar" id="desktop__button" onclick="Roll()"><a class="button">Roll The Dice</a></div>
 		</div>
 		<div class="gameboard">
 			<div class="row reverse">
@@ -61,8 +62,8 @@
 			</div>
 			
 		</div>
-		<div class="actionbar">
-			<a onclick="Roll()" class="button">Roll the Dice</a>
+		<div class="actionbar" id="mobile__button" onclick="Roll()">
+			<a class="button">Roll the Dice</a>
 		</div>
 	</div>	
 </body>

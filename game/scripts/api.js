@@ -18,9 +18,7 @@ var addCard = new Card("?name=Cersei+Lannister", "characters/cersei.png", "icons
 //console.log(localCardData);
 var cardContainer = document.getElementById('card__container');
 
-for (let i in localCardData){
-	console.log(localCardData[i]);
-	
+for (let i in localCardData){	
 	fetch('https://anapioficeandfire.com/api/characters/'+localCardData[i].apiParam)
 	  .then(function(response) {
 	    return response.json();    
@@ -28,66 +26,130 @@ for (let i in localCardData){
 	  .then(function(myJson) {	  	
 	    if(myJson[0].name == "Daenerys Targaryen"){
 	    	//console.log(myJson[1]);
-	    	console.log(localCardData[i]);
+	    	//console.log(localCardData[i]);
+	    	//console.log(myJson[1].titles[1]);
 
-	    	var myImg = document.createElement("img");
-	    	myImg.src = localCardData[i].imgUrl;
+	    	var cardImg = document.createElement("img");
+	    	cardImg.src = localCardData[i].imgUrl;
 	    	
-	    	var card = document.createElement('p');
-			card.className = "card__name";
+	    	var cardName = document.createElement('p');
+			cardName.className = "card__name";
+			cardName.innerHTML = myJson[1].name;
+
 			var myCard = document.createElement('div');
 			myCard.className = "card";
-			myCard.setAttribute("onclick", "enterGame()")
-	    	card.innerHTML = myJson[1].name;
+			myCard.setAttribute("onclick", "selectCard(this)");
+
+			var cardBottom = document.createElement('div');
+			cardBottom.className = "container " + "card__bottom";			
+
+			var cardIcon = document.createElement('div');
+			cardIcon.className = "card__icon";
+
+			var cardIconImg= document.createElement('img');
+			cardIconImg.src = localCardData[i].iconUrl;
+
+			var cardText = document.createElement('div');
+			cardText.className = "card__text";
+
+			var cardTitle = document.createElement('p');
+			cardTitle.innerHTML = "Title: " + myJson[1].titles[1];
+
+			var cardHouse = document.createElement('p');
+			var makeId = myJson[1].name + "__house";
+			var houseId = makeId.replace(/ /g,'');
+			cardHouse.id = houseId;
+			cardHouse.innerHTML = "loading";
 	    	
-	    	myCard.appendChild(card);
-	    	myCard.appendChild(myImg);
+
+			cardIcon.appendChild(cardIconImg);
+			cardText.appendChild(cardTitle);
+			cardText.appendChild(cardHouse);
+			cardBottom.appendChild(cardText);
+			cardBottom.appendChild(cardIcon);
+	    	myCard.appendChild(cardName);
+	    	myCard.appendChild(cardImg);
+	    	myCard.appendChild(cardBottom);
 	    	
 			cardContainer.appendChild(myCard);    	
 	    	
 
-	    	getHouse(myJson[1].allegiances[0]);
+	    	getHouse(myJson[1].allegiances[0], houseId);
 
 	    }
 	    else{
-	    	//console.log(myJson[0]);
-	    	var card = document.createElement('p');
-			card.className = "card__name";
-			var myCard = document.createElement('div');
-			var myImg = document.createElement("img");
-	    	myImg.src = localCardData[i].imgUrl;
-			myCard.className = "card";
-	    	card.innerHTML = myJson[0].name;
+	    	var cardImg = document.createElement("img");
+	    	cardImg.src = localCardData[i].imgUrl;
+	    	
+	    	var cardName = document.createElement('p');
+			cardName.className = "card__name";
+			cardName.innerHTML = myJson[0].name;
 
-	    	myCard.appendChild(card);
-	    	myCard.appendChild(myImg);
-			cardContainer.appendChild(myCard);	 	
+			var myCard = document.createElement('div');
+			myCard.className = "card";
+			myCard.setAttribute("onclick", "selectCard(this)");
+
+			var cardBottom = document.createElement('div');
+			cardBottom.className = "container " + "card__bottom";			
+
+			var cardIcon = document.createElement('div');
+			cardIcon.className = "card__icon";
+
+			var cardIconImg= document.createElement('img');
+			cardIconImg.src = localCardData[i].iconUrl;
+
+			var cardText = document.createElement('div');
+			cardText.className = "card__text";
+
+			var cardTitle = document.createElement('p');
+			if (myJson[0].titles == "") {
+				cardTitle.innerHTML = "Title: None";
+			} 
+			else{
+				cardTitle.innerHTML = "Title: " + myJson[0].titles[0];
+			}			
+
+			var cardHouse = document.createElement('p');
+			var makeId = myJson[0].name + "__house";
+			var houseId = makeId.replace(/ /g,'');
+			cardHouse.id = houseId;			
+			cardHouse.innerHTML = "loading";	    	
+
+			cardIcon.appendChild(cardIconImg);
+			cardText.appendChild(cardTitle);
+			cardText.appendChild(cardHouse);
+			cardBottom.appendChild(cardText);
+			cardBottom.appendChild(cardIcon);
+	    	myCard.appendChild(cardName);
+	    	myCard.appendChild(cardImg);
+	    	myCard.appendChild(cardBottom);
+	    	
+			cardContainer.appendChild(myCard); 	 	
 	    	
 
 	    	if(myJson[0].allegiances.length > 1){
-	    		getHouse(myJson[0].allegiances[1]);
+	    		getHouse(myJson[0].allegiances[1], houseId);
 	    	}
-	    	else{getHouse(myJson[0].allegiances[0])}
+	    	else{getHouse(myJson[0].allegiances[0], houseId)}
 	    }	    	    
 	});
 	//console.log(name);
 		
 }
 
-function getHouse(x){
+function getHouse(x, y){
 	fetch(x)
 	  .then(function(response) {
 	    return response.json();    
 	  })
 	  .then(function(myJson) {	  	
-	    //console.log(myJson.name)
+	    var houseName = myJson.name;
+	    //console.log(houseName);
+	    var test = document.querySelectorAll("#"+y);
+	    test[0].innerHTML = "House: " + houseName;
+
 	     
 	});
 }
 
 
-function myFunction(target){
-	//console.log(target);
-	var finder = target.querySelectorAll(".iconImg");
-	console.log(finder[0]);
-}
