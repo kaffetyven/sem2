@@ -15,7 +15,8 @@ var addCard = new Card("?name=Jorah+Mormont", "characters/jorah.png", "icons/tar
 var addCard = new Card("?name=Theon+Greyjoy", "characters/theon.png", "icons/greyjoy.png",);
 var addCard = new Card("?name=Arya+Stark", "characters/arya.png", "icons/stark.png",);
 var addCard = new Card("?name=Cersei+Lannister", "characters/cersei.png", "icons/lannister.png",);
-//console.log(localCardData);
+
+
 var cardContainer = document.getElementById('card__container');
 
 for (let i in localCardData){	
