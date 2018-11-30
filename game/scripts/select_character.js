@@ -17,11 +17,11 @@ function House(name, imgUrl) {
     this.imgUrl = imgUrl;
     localHouseData.push(this);      
 }
-var addHouse = new House("Stark", "assets/stark.png");
-var addHouse = new House("Lannister", "assets/lannister.png");
-var addHouse = new House("Targaryen", "assets/targaryen.png");
-var addHouse = new House("Tarly", "assets/tarly.png");
-var addHouse = new House("Greyjoy", "assets/greyjoy.png");
+var addHouse = new House("Stark", "asset/stark.png");
+var addHouse = new House("Lannister", "asset/lannister.png");
+var addHouse = new House("Targaryen", "asset/targaryen.png");
+var addHouse = new House("Tarly", "asset/tarly.png");
+var addHouse = new House("Greyjoy", "asset/greyjoy.png");
 
 function Player(playerIndex, name, imgUrl, tokenUrl) {
     this.playerIndex = playerIndex;

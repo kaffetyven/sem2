@@ -1,9 +1,42 @@
-function Redirect(){
-	window.location.href = "character_select.html";
+let playerIndex = "";
+let start = document.getElementById('start');
+let playerOne = ""
+let playerTwo = ""
+window.addEventListener("load", loadTokens);
+function loadTokens(){
+	if (sessionStorage.getItem("players") == null){
+		window.location.href = "index.html";
+	}
+	else{
+		playerIndex = sessionStorage.getItem("players");		
+	}
+	playerOne = JSON.parse(sessionStorage.getItem("player1"));
+	var playerOneToken = document.createElement('img');
+	playerOneToken.src=playerOne.tokenUrl;
+	playerOneToken.className = "player"+" player1";	
+	start.appendChild(playerOneToken);
+	if (playerIndex == 2) {
+		playerTwo = JSON.parse(sessionStorage.getItem("player2"));
+		var playerTwoToken = document.createElement('img');
+		if (playerOne.tokenUrl == playerTwo.tokenUrl){
+			var str = playerTwo.tokenUrl;
+			var a = str.split(".");
+			a[0]+="2";
+			var strNew = a.join(".");
+			playerTwoToken.src = strNew;
+		}
+		else{
+			playerTwoToken.src=playerTwo.tokenUrl;
+		}
+		playerTwoToken.className = "player"+" player2";
+		start.appendChild(playerTwoToken);
+	}
+
 }
 
+
 var turn = 0;
-function Roll(){
+function Roll(){	
 	var dice = Math.floor((Math.random() * 6) + 1);	
 	var counter = dice;
 	console.log(counter);
