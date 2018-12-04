@@ -7,13 +7,21 @@
 	<link rel="stylesheet" type="text/css" href="styles/game.css">
 	<script src="scripts/game.js" defer></script>
 </head>
-<body>
+<body>	
 	<div class="game">
 		<div class="status container">
 			<div><h2 class="status__text">Someones Turn</h2></div>
 			<div class="actionbar" id="desktop__button" onclick="Roll()"><a class="button">Roll The Dice</a></div>
-		</div>
+		</div>		
 		<div class="gameboard">
+			<div class="modal">
+				<div class="dice__container">
+					<img src="dice/dice1.png" class="dice">
+					<div class="progress_bar">
+						<div class="progress"></div>
+					</div>
+				</div>
+			</div>
 			<div class="row reverse">
 				<div class="tile">26</div>
 				<div class="tile">27</div>

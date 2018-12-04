@@ -1,3 +1,7 @@
+@keyframes progress {
+  from{width:0%;}
+  to{width:100%;}
+}
 p{
   margin:0;
 }
@@ -5,11 +9,42 @@ p{
   margin:0 auto;
   max-width: 1024px;
 }
-
+.modal{
+  position: absolute;
+  height: 100%;
+  width:100%;
+  background-color: #414042;
+  z-index: 9999999;
+  display: none;
+  justify-content: center;  
+}
+.dice__container{
+  margin-top: 10px;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.progress_bar{
+  background-color: white;
+  height: 20px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+.progress{
+  height:100%;
+  width:50%;
+  border-radius: 5px;
+  background-color: green;
+  animation-name: progress;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
 .status{
   justify-content: space-around;
-  
-
+  align-items: center;
 }
 .status__text{  
   color:white;
@@ -33,6 +68,7 @@ p{
 }
 #desktop__button{
   display: none;
+  margin-top: 0;
 }
 .button{
   color:white;
@@ -46,6 +82,7 @@ p{
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
+  position: relative;
 }
 .row{
   display: flex;
@@ -93,6 +130,10 @@ p{
   margin-left: 3px;
   font-size:14pt;
   margin-top:30%;
+}
+.footstep{
+  position: absolute;
+  left:0;
 }
 @media only screen and (min-width: 700px) {
   .gameboard{
