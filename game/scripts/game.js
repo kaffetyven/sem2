@@ -13,6 +13,11 @@ var player= "";
 var mediaTest = window.matchMedia("(max-width: 1023px)");
 var statusText = document.querySelectorAll(".status__text")[0];
 window.addEventListener("load", loadTokens);
+
+var mongo = document.getElementById('ramseysFloor');
+var selveste = document.querySelectorAll('.ramsey')[0];
+console.log(mongo.childNodes);
+
 function loadTokens(){
 	if (sessionStorage.getItem("players") == null){
 		window.location.href = "index.html";
@@ -46,8 +51,9 @@ function loadTokens(){
 }
 
 function setPlayer(){
+	console.log(turn);
 	if (playerIndex == 1){
-		console.log("its 1 player");
+		//console.log("its 1 player");
 		player = document.querySelectorAll(".player1")[0];
 		statusText.innerHTML = "Its your turn";
 	}else{
@@ -58,7 +64,6 @@ function setPlayer(){
 		else {
 			player = document.querySelectorAll(".player1")[0];
 			statusText.innerHTML= playerOne.name +"s turn";
-
 		}
 	}
 }
@@ -85,15 +90,21 @@ function Dice(){
 			diceIteration += 1;
 		}
 	}, 100);
-	console.log(counter);
+	//console.log(counter);	
 	var modal = document.querySelectorAll(".modal")[0];
 	var progress = document.querySelectorAll(".progress")[0];
 	modal.style.display="flex";	
 	progress.addEventListener("animationend", Continue);
 }
 function Continue(){
-	console.log("finished");
+	//console.log("finished");
 	statusText.innerHTML = "You have rolled: "+counter;
+	if (counter == 6) {
+		statusText.innerHTML = "You have Rolled: " +counter +"<br> Double Turn!"
+	}
+	else{
+		statusText.innerHTML = "You have rolled: "+counter;
+	}
 	clearInterval(diceInterval);
 	diceImg.src = "dice/dice"+ counter + ".png";
 	mobileButton.setAttribute("onclick", "ModalAway()");
@@ -107,11 +118,11 @@ function Continue(){
 function Mediacheck(x){
 	if (x.matches){
 		desktopButton.style.display = "none";
-		console.log("match");
+		//console.log("match");
 	}
 	else{
 		mobileButton.style.display = "none";
-		console.log("does not match");
+		//console.log("does not match");
 	}
 }
 function ModalAway(){
@@ -122,31 +133,101 @@ function ModalAway(){
 	Footsteps();
 }
 var steps = 0;
-var stepImg = document.querySelectorAll('.footstep')[0];
+
 
 function Footsteps(){
 	statusText.innerHTML = "Moving...";
+	player.style.display = "none";
+	//console.log(steps);
+	steps = 0;
 	var stepper = setInterval(function(){
 		if (steps==0) {
 			var currentTile = player.parentNode;
-		}else{
-			var currentTile = stepImg.parentNode;
-		}		
-		var newStepImg = document.createElement('img');
-		newStepImg.src = "asset/stepright.png"
-		newStepImg.className= "footstep";
-		var currentRow = currentTile.parentNode;
-		var nextTile = currentTile.nextSibling.nextSibling;
-		if (nextTile == null) {
-			var nextRow = currentRow.previousSibling.previousSibling;
-			nextRow.firstChild.nextSibling.appendChild(newStepImg);
+			var nextTile = currentTile.nextSibling.nextSibling;
+			var currentRow = currentTile.parentNode;
+			var newStepImg = document.createElement('img');
+			newStepImg.src = "asset/stepright.png"
+			if (currentRow.className == "row reverse") {
+					newStepImg.src="asset/stepleft.png"
+				}
+			newStepImg.className= "footstep";
+			if (nextTile == null) {
+				var nextRow = currentRow.previousSibling.previousSibling;
+				if (nextRow.className == "row reverse") {
+					newStepImg.src="asset/stepleft.png";
+				}else{newStepImg.src = "asset/stepright.png"}
+				nextRow.firstChild.nextSibling.appendChild(newStepImg);
+			}
+			else{
+			nextTile.appendChild(newStepImg);
+			}
 		}
 		else{
-		nextTile.appendChild(newStepImg);
+			var stepImg = document.querySelectorAll('.footstep')[0];
+			var currentTile = stepImg.parentNode;
+			var nextTile = currentTile.nextSibling.nextSibling;
+			var currentRow = currentTile.parentNode;
+			if (nextTile == null) {
+				var nextRow = currentRow.previousSibling.previousSibling;
+				if (nextRow.className == "row reverse") {
+					stepImg.src="asset/stepleft.png"
+				}else{
+					stepImg.src = "asset/stepright.png";
+				}
+				nextRow.firstChild.nextSibling.appendChild(stepImg);
+			}
+			else{
+			nextTile.appendChild(stepImg);
+			}
 		}
+		if (steps == counter-1) {
+			clearInterval(stepper);
+			var finalStep = document.querySelectorAll('.footstep')[0];
+			var finalTile = finalStep.parentNode;
+			finalTile.appendChild(player);
+			finalTile.removeChild(finalStep);
+			player.style.display = "block";
+			checkTile();			
+		}		
 		steps += 1;
 	}, 1000);
 	
+}
+function checkTile(){
+	if (player.parentNode.id == "trap1") {
+		console.log("trap1");
+	}
+	if (player.parentNode.id == "trap2") {
+		console.log("trap2");
+	}
+	if (player.parentNode.id == "trap3") {
+		console.log("trap3");
+	}
+	if (player.parentNode.id == "trap4") {
+		console.log("trap4");
+	}
+	if (player.parentNode.className == "tile ramsey") {
+		console.log("its ramsey");		
+	}
+	endTurn();
+}
+function endTurn(){	
+	if (counter !== 6) {
+		turn++;
+	}
+	resetButtons();
+	setPlayer();
+}
+function resetButtons(){
+	mobileButton.removeAttribute("onclick");	
+	mobileButtonText.innerHTML = "Roll the dice";
+	mobileButton.style.display = "flex";
+	mobileButton.setAttribute('onclick', 'Roll()');
+	desktopButton.removeAttribute("onclick");	
+	desktopButtonText.innerHTML= "Roll the dice";
+	desktopButton.style.display= "flex";
+	desktopButton.setAttribute('onclick', 'Roll()');
+	Mediacheck(mediaTest);
 }
 function Move_player(){
 	for (i = 0; i < counter; i++){		
@@ -164,7 +245,7 @@ function Move_player(){
 		}		
 	}
 	if (counter !== 6) {
-		turn=turn+1
+		turn++
 	}	
 }
 	
