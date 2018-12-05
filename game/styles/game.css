@@ -42,6 +42,15 @@ p{
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
+.trap__text{
+  color:white;
+  padding:20px;
+  margin-top: 40px;
+}
+.ramsey_img_container{
+  padding:10px;
+  display: none;
+}
 .status{
   justify-content: space-around;
   align-items: center;
@@ -121,10 +130,12 @@ p{
 .player1{
   right:5px;
   bottom:20px;
+  z-index: 8888;
 }
 .player2{
   left:5px;
   bottom:2px;
+  z-index: 9999;
 }
 .goal__text{
   margin-left: 3px;

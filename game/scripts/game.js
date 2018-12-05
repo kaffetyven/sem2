@@ -12,11 +12,14 @@ var turn = "";
 var player= "";
 var mediaTest = window.matchMedia("(max-width: 1023px)");
 var statusText = document.querySelectorAll(".status__text")[0];
+var trapModal = document.querySelectorAll(".modal")[1];
+var trapText = document.querySelectorAll(".trap__text")[0];
+var trapImg = document.querySelectorAll(".ramsey_img_container")[0];
+var checkpoint1= document.getElementById("checkpoint1");
+var checkpoint2= document.getElementById("checkpoint2");
+var checkpoint3= document.getElementById("checkpoint3");
+var hasRamseyMoved = false;
 window.addEventListener("load", loadTokens);
-
-var mongo = document.getElementById('ramseysFloor');
-var selveste = document.querySelectorAll('.ramsey')[0];
-console.log(mongo.childNodes);
 
 function loadTokens(){
 	if (sessionStorage.getItem("players") == null){
@@ -51,7 +54,7 @@ function loadTokens(){
 }
 
 function setPlayer(){
-	console.log(turn);
+	//console.log(turn);
 	if (playerIndex == 1){
 		//console.log("its 1 player");
 		player = document.querySelectorAll(".player1")[0];
@@ -194,29 +197,79 @@ function Footsteps(){
 	
 }
 function checkTile(){
-	if (player.parentNode.id == "trap1") {
-		console.log("trap1");
+	if (player.parentNode.className == "tile trap" || player.parentNode.className == "tile ramsey"){
+		if (player.parentNode.id == "trap1") {
+			//console.log("trap1");
+			statusText.innerHTML = "You have walked in a Trap!";
+			trapText.innerHTML = "You woke up the prison guard! <br> He sends you back to the dungeon cell!";
+			start.appendChild(player);
+		}
+		if (player.parentNode.id == "trap2") {
+			statusText.innerHTML = "You have walked in a Trap!";
+			trapText.innerHTML = "Ramsey's dogs have found you! <br> They chase you back to the cellar.";
+			checkpoint1.appendChild(player);
+			//console.log("trap2");
+		}
+		if (player.parentNode.id == "trap3") {
+			statusText.innerHTML = "You have walked in a Trap!";
+			trapText.innerHTML = "You have been spotted by patroling guards! <br> You rush back down to the cellar to hide!";
+			checkpoint2.appendChild(player);
+			//console.log("trap3");
+		}
+		if (player.parentNode.id == "trap4") {
+			statusText.innerHTML = "You have walked in a Trap!";
+			trapText.innerHTML = "You failed to sneak past the towerguard! <br> He pushes you off the towerwall and you fall to the courtyard";			
+			checkpoint3.appendChild(player);
+			//console.log("trap4");
+		}
+		if (player.parentNode.className == "tile ramsey") {
+		statusText.innerHTML = "Ramsey has found you!";
+		trapImg.style.display="block";
+		trapText.innerHTML= "Hello Reek! <br> You thought you could escape didn't you? <br> He tosses you back into the dungeon cell.";		
+		//console.log("its ramsey");
+		start.appendChild(player);	
+		}
+
+		trapModal.style.display = "flex";
+		mobileButton.setAttribute("onclick", "TrapAway()");
+		desktopButton.setAttribute("onclick", "TrapAway()");
+		mobileButtonText.innerHTML = "Continue";
+		desktopButtonText.innerHTML = "Continue";
+		mobileButton.style.display = "flex";
+		desktopButton.style.display = "flex";
+		Mediacheck(mediaTest);
 	}
-	if (player.parentNode.id == "trap2") {
-		console.log("trap2");
-	}
-	if (player.parentNode.id == "trap3") {
-		console.log("trap3");
-	}
-	if (player.parentNode.id == "trap4") {
-		console.log("trap4");
-	}
-	if (player.parentNode.className == "tile ramsey") {
-		console.log("its ramsey");		
-	}
-	endTurn();
+	else{
+		if (hasRamseyMoved == true){
+			endTurn();
+		}
+		else{
+			moveRamsey();
+		}
+		
+	}	
 }
+
+function TrapAway(){
+	trapImg.style.display = "none";
+	trapModal.style.display = "none";
+	if (hasRamseyMoved == true) {
+		endTurn();
+	}
+	else{
+		moveRamsey();
+	}
+	
+}
+
 function endTurn(){	
 	if (counter !== 6) {
-		turn++;
+		turn++;		
 	}
+	hasRamseyMoved = false;	
 	resetButtons();
 	setPlayer();
+	
 }
 function resetButtons(){
 	mobileButton.removeAttribute("onclick");	
@@ -228,6 +281,22 @@ function resetButtons(){
 	desktopButton.style.display= "flex";
 	desktopButton.setAttribute('onclick', 'Roll()');
 	Mediacheck(mediaTest);
+}
+
+function moveRamsey(){
+	var possibleChildnodes = [1, 3, 5, 7, 9];
+	var ramseyRoll = Math.floor((Math.random() * 5));	
+	var ramseyRow = document.getElementById('ramseysFloor');
+	var currentRamsey = document.querySelectorAll('.ramsey')[0];
+	var res = possibleChildnodes[ramseyRoll];
+	if (currentRamsey == ramseyRow.childNodes[res]) {
+		moveRamsey();
+	}else{
+		currentRamsey.className = "tile";
+		ramseyRow.childNodes[res].className += ' ramsey';
+		hasRamseyMoved = true;
+		checkTile();
+	}	
 }
 function Move_player(){
 	for (i = 0; i < counter; i++){		
