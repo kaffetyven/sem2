@@ -1,4 +1,9 @@
+//some global variables and arrays.
 var localCardData = [];
+var cardContainer = document.getElementById('card__container');
+
+//builds 10 objects with properties of urlParameter for the api and local src of images.
+//also pushes each object built to an array.
 function Card(apiParam, imgUrl, iconUrl) {
     this.apiParam = apiParam;
     this.imgUrl = imgUrl;
@@ -17,15 +22,19 @@ var addCard = new Card("?name=Arya+Stark", "characters/arya.png", "icons/stark.p
 var addCard = new Card("?name=Cersei+Lannister", "characters/cersei.png", "icons/lannister.png",);
 
 
-var cardContainer = document.getElementById('card__container');
 
+/*
+	i use a for loop to iterate the the array of objects and fetches the characters that i want then
+	build the cards with text information from the api along with img src from the objects.
+
+*/
 for (let i in localCardData){	
 	fetch('https://anapioficeandfire.com/api/characters/'+localCardData[i].apiParam)
 	  .then(function(response) {
 	    return response.json();    
 	  })
 	  .then(function(myJson) {	  	
-	    if(myJson[0].name == "Daenerys Targaryen"){
+	    if(myJson[0].name == "Daenerys Targaryen"){ //<- there are two Daenerys Targaryen in the API
 	    	//console.log(myJson[1]);
 	    	//console.log(localCardData[i]);
 	    	//console.log(myJson[1].titles[1]);
@@ -35,11 +44,11 @@ for (let i in localCardData){
 	    	
 	    	var cardName = document.createElement('p');
 			cardName.className = "card__name";
-			cardName.innerHTML = myJson[1].name;
+			cardName.innerHTML = myJson[1].name; //<- the second Daenerys
 
 			var myCard = document.createElement('div');
 			myCard.className = "card";
-			myCard.setAttribute("onclick", "selectCard(this)");
+			myCard.setAttribute("onclick", "selectCard(this)"); //<- will be used in another script to select a player.
 
 			var cardBottom = document.createElement('div');
 			cardBottom.className = "container " + "card__bottom";			
@@ -60,7 +69,7 @@ for (let i in localCardData){
 			var makeId = myJson[1].name + "__house";
 			var houseId = makeId.replace(/ /g,'');
 			cardHouse.id = houseId;
-			cardHouse.innerHTML = "loading";
+			cardHouse.innerHTML = "loading"; // <- the House information will be using a different fetch call.	
 	    	
 
 			cardIcon.appendChild(cardIconImg);
@@ -75,10 +84,10 @@ for (let i in localCardData){
 			cardContainer.appendChild(myCard);    	
 	    	
 
-	    	getHouse(myJson[1].allegiances[0], houseId);
+	    	getHouse(myJson[1].allegiances[0], houseId); //<- calls the get house function with 2 parameters
 
 	    }
-	    else{
+	    else{ //<- this code will apply to all cards exept Daenerys Targaryen.
 	    	var cardImg = document.createElement("img");
 	    	cardImg.src = localCardData[i].imgUrl;
 	    	
@@ -88,7 +97,7 @@ for (let i in localCardData){
 
 			var myCard = document.createElement('div');
 			myCard.className = "card";
-			myCard.setAttribute("onclick", "selectCard(this)");
+			myCard.setAttribute("onclick", "selectCard(this)");//<- will be used in another script to select a player.
 
 			var cardBottom = document.createElement('div');
 			cardBottom.className = "container " + "card__bottom";			
@@ -103,7 +112,7 @@ for (let i in localCardData){
 			cardText.className = "card__text";
 
 			var cardTitle = document.createElement('p');
-			if (myJson[0].titles == "") {
+			if (myJson[0].titles == "") { //<- Runs if the characters dont have any titles.
 				cardTitle.innerHTML = "Title: None";
 			} 
 			else{
@@ -114,7 +123,7 @@ for (let i in localCardData){
 			var makeId = myJson[0].name + "__house";
 			var houseId = makeId.replace(/ /g,'');
 			cardHouse.id = houseId;			
-			cardHouse.innerHTML = "loading";	    	
+			cardHouse.innerHTML = "loading"; //<- the House information will be using a different fetch call.	    	
 
 			cardIcon.appendChild(cardIconImg);
 			cardText.appendChild(cardTitle);
@@ -128,7 +137,7 @@ for (let i in localCardData){
 			cardContainer.appendChild(myCard); 	 	
 	    	
 
-	    	if(myJson[0].allegiances.length > 1){
+	    	if(myJson[0].allegiances.length > 1){ // Runs if the characters have more than 1 house to select the right one.
 	    		getHouse(myJson[0].allegiances[1], houseId);
 	    	}
 	    	else{getHouse(myJson[0].allegiances[0], houseId)}
@@ -137,7 +146,7 @@ for (let i in localCardData){
 	//console.log(name);
 		
 }
-
+// this function will fetch the house information based on the parameters sent from the for loop.
 function getHouse(x, y){
 	fetch(x)
 	  .then(function(response) {

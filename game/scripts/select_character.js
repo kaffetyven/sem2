@@ -1,6 +1,10 @@
+//global variables and arrays
 var playerIndex = "";
+var localHouseData = [];
 window.addEventListener("load", loadPlayers);
+var currentCharacter = 1;
 
+//checks the session storage for how many cards there are to be selected.
 function loadPlayers(){
 	if (sessionStorage.getItem("players") == null) {
 		window.location.href = "index.html";
@@ -9,9 +13,9 @@ function loadPlayers(){
 		playerIndex = sessionStorage.getItem("players");
 		//console.log(playerIndex);
 	}
-	
 }
-var localHouseData = [];
+
+// builds all the houses as objects
 function House(name, imgUrl) {
     this.name = name;
     this.imgUrl = imgUrl;
@@ -23,6 +27,7 @@ var addHouse = new House("Targaryen", "asset/targaryen.png");
 var addHouse = new House("Tarly", "asset/tarly.png");
 var addHouse = new House("Greyjoy", "asset/greyjoy.png");
 
+//creates a player object with information to be used for the game and victory page.
 function Player(playerIndex, name, imgUrl, tokenUrl) {
     this.playerIndex = playerIndex;
     this.name = name;
@@ -30,7 +35,11 @@ function Player(playerIndex, name, imgUrl, tokenUrl) {
     this.tokenUrl = tokenUrl;    
 }
 
-var currentCharacter = 1;
+/*
+	This function uses the information on the cards that is clicked to build player objects that
+	are sent to the session storage.
+	It also creates a modal within the card to make sure you have not clicked a card by mistake.
+*/ 
 function selectCard(target){
 	//console.log(target);
 	Cancel();
@@ -82,6 +91,7 @@ function selectCard(target){
 	
 }
 
+// this function removes the current modal and resets the onclick attribute of the card that was displaying the modal.
 function Cancel(){
 	var currentModal = document.querySelectorAll('.modal')[0];
 	if (currentModal == null) {
@@ -97,6 +107,12 @@ function Cancel(){
 	}
 	parent.removeChild(currentModal);	
 }
+
+/*
+	This function will remove any selected cards so that you cant have 2 of the same characters playing.
+	if all characters have been selected it will take you to the game page.
+*/
+
 function Continue(){
 	if (playerIndex == 2) {
 		if (currentCharacter == 1){

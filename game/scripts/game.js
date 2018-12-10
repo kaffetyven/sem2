@@ -1,3 +1,4 @@
+//declares a lot of global variables and applies the event listener to the window element to load the correct game tokens
 let playerIndex = "";
 let start = document.getElementById('start');
 let playerOne = "";
@@ -19,8 +20,11 @@ var checkpoint1= document.getElementById("checkpoint1");
 var checkpoint2= document.getElementById("checkpoint2");
 var checkpoint3= document.getElementById("checkpoint3");
 var hasRamseyMoved = false;
+var hasPlayerMoved = false;
+var goaltest = document.getElementById('test');
 window.addEventListener("load", loadTokens);
 
+//loads the correct tokens from the sessionStorage objects or refers you to the index if there are none.
 function loadTokens(){
 	if (sessionStorage.getItem("players") == null){
 		window.location.href = "index.html";
@@ -31,12 +35,13 @@ function loadTokens(){
 	playerOne = JSON.parse(sessionStorage.getItem("player1"));
 	var playerOneToken = document.createElement('img');
 	playerOneToken.src=playerOne.tokenUrl;
-	playerOneToken.className = "player"+" player1";	
-	start.appendChild(playerOneToken);
+	playerOneToken.className = "player"+" player1";
+	playerOneToken.id = "player1";
+	goaltest.appendChild(playerOneToken);
 	if (playerIndex == 2) {
 		playerTwo = JSON.parse(sessionStorage.getItem("player2"));
 		var playerTwoToken = document.createElement('img');
-		if (playerOne.tokenUrl == playerTwo.tokenUrl){
+		if (playerOne.tokenUrl == playerTwo.tokenUrl){ //<- If the tokens are from the same house use the 2nd version.
 			var str = playerTwo.tokenUrl;
 			var a = str.split(".");
 			a[0]+="2";
@@ -47,12 +52,14 @@ function loadTokens(){
 			playerTwoToken.src=playerTwo.tokenUrl;
 		}
 		playerTwoToken.className = "player"+" player2";
-		start.appendChild(playerTwoToken);
+		playerTwoToken.id= "player2";
+		goaltest.appendChild(playerTwoToken);
 
 	}
 	setPlayer();
 }
 
+//this function determines what token is the current player based on the global turn variable
 function setPlayer(){
 	//console.log(turn);
 	if (playerIndex == 1){
@@ -69,7 +76,10 @@ function setPlayer(){
 			statusText.innerHTML= playerOne.name +"s turn";
 		}
 	}
+	checkTile();
 }
+
+//returns a number between 1-6 and removes the buttons from the UI.
 function Roll(){	
 	var dice = Math.floor((Math.random() * 6) + 1);	
 	counter = dice;	
@@ -82,6 +92,7 @@ function Roll(){
 var diceIteration = 1;
 var diceInterval = "";
 
+//Starts the rolling of the dice animation
 function Dice(){
 	statusText.innerHTML = "Rolling..."
 	diceInterval = setInterval(function(){		
@@ -92,13 +103,14 @@ function Dice(){
 		}else{
 			diceIteration += 1;
 		}
-	}, 100);
-	//console.log(counter);	
+	}, 100);		
 	var modal = document.querySelectorAll(".modal")[0];
 	var progress = document.querySelectorAll(".progress")[0];
 	modal.style.display="flex";	
 	progress.addEventListener("animationend", Continue);
 }
+
+//Displays what the player has rolled and displays the buttons again with a new onclick attribute.
 function Continue(){
 	//console.log("finished");
 	statusText.innerHTML = "You have rolled: "+counter;
@@ -118,6 +130,7 @@ function Continue(){
 	desktopButton.style.display = "flex";
 	Mediacheck(mediaTest);
 }
+//a simple function to check what button to remove.
 function Mediacheck(x){
 	if (x.matches){
 		desktopButton.style.display = "none";
@@ -128,6 +141,7 @@ function Mediacheck(x){
 		//console.log("does not match");
 	}
 }
+//removes the dice modal.
 function ModalAway(){
 	mobileButton.style.display= "none";
 	desktopButton.style.display= "none";
@@ -137,20 +151,24 @@ function ModalAway(){
 }
 var steps = 0;
 
-
+/*	makes footsteps "animation" on each tile. on the first step it creates the image.
+	for the next step it just moves it.
+	for the last step it appends the playertoken again and removes the footseps img.
+	this function also checks for victory.
+*/
 function Footsteps(){
 	statusText.innerHTML = "Moving...";
 	player.style.display = "none";
 	//console.log(steps);
 	steps = 0;
 	var stepper = setInterval(function(){
-		if (steps==0) {
+		if (steps==0) { //<- the first step creates the footstep element
 			var currentTile = player.parentNode;
 			var nextTile = currentTile.nextSibling.nextSibling;
 			var currentRow = currentTile.parentNode;
 			var newStepImg = document.createElement('img');
 			newStepImg.src = "asset/stepright.png"
-			if (currentRow.className == "row reverse") {
+			if (currentRow.className == "row reverse") { //<- flip footsteps for next row
 					newStepImg.src="asset/stepleft.png"
 				}
 			newStepImg.className= "footstep";
@@ -161,11 +179,19 @@ function Footsteps(){
 				}else{newStepImg.src = "asset/stepright.png"}
 				nextRow.firstChild.nextSibling.appendChild(newStepImg);
 			}
-			else{
-			nextTile.appendChild(newStepImg);
+			else{ //<- if the first step is a victory
+				if (nextTile.id === "goal") {
+					clearInterval(stepper);
+					console.log("victory from step1");
+					victory();
+					
+				}
+				else{
+					nextTile.appendChild(newStepImg);
+				}			
 			}
 		}
-		else{
+		else{ //<- find the footsteps and append it to the next tile
 			var stepImg = document.querySelectorAll('.footstep')[0];
 			var currentTile = stepImg.parentNode;
 			var nextTile = currentTile.nextSibling.nextSibling;
@@ -179,24 +205,43 @@ function Footsteps(){
 				}
 				nextRow.firstChild.nextSibling.appendChild(stepImg);
 			}
-			else{
-			nextTile.appendChild(stepImg);
+			else{ //<-- checks for victory
+				if (nextTile.id === "goal") {
+					clearInterval(stepper);
+					console.log("victory from far");
+					victory();
+				}
+				else{
+					nextTile.appendChild(stepImg);
+				}			
 			}
 		}
-		if (steps == counter-1) {
+		if (steps == counter-1) { //<- last step
 			clearInterval(stepper);
 			var finalStep = document.querySelectorAll('.footstep')[0];
 			var finalTile = finalStep.parentNode;
 			finalTile.appendChild(player);
 			finalTile.removeChild(finalStep);
 			player.style.display = "block";
+			hasPlayerMoved = true;			
 			checkTile();			
 		}		
 		steps += 1;
 	}, 1000);
 	
 }
-function checkTile(){
+/*
+	This function checks the tile that the player has landed on.
+	The first if statement is run when the player is standing in a trap or on the ramsey tile.
+
+	If the player is standing in a trap i display a trap modal with the trap information and
+	set a new onclick attribute on the buttons.
+
+	Since this function also runs at the beginning of each turn i have included a boolean value
+	to check if the player has moved.
+
+*/
+function checkTile(){	
 	if (player.parentNode.className == "tile trap" || player.parentNode.className == "tile ramsey"){
 		if (player.parentNode.id == "trap1") {
 			//console.log("trap1");
@@ -240,16 +285,20 @@ function checkTile(){
 		Mediacheck(mediaTest);
 	}
 	else{
-		if (hasRamseyMoved == true){
-			endTurn();
+		if (hasPlayerMoved == false) {
+			//console.log("it works");
 		}
-		else{
-			moveRamsey();
-		}
-		
+		else{ //<- if the player has moved this will run.			
+			if (hasRamseyMoved == true){
+				endTurn();
+			}
+			else{
+				moveRamsey();
+			}
+		}		
 	}	
 }
-
+// removes the trap modal and check if ramsey has moved.
 function TrapAway(){
 	trapImg.style.display = "none";
 	trapModal.style.display = "none";
@@ -261,16 +310,18 @@ function TrapAway(){
 	}
 	
 }
-
+// changes the turn if unless a 6 has been rolled, and resets the player and ramsey booleans.
 function endTurn(){	
 	if (counter !== 6) {
 		turn++;		
 	}
-	hasRamseyMoved = false;	
+	hasRamseyMoved = false;
+	hasPlayerMoved = false;
 	resetButtons();
 	setPlayer();
 	
 }
+//Sets the onclick attribute on the buttons back to the original state.
 function resetButtons(){
 	mobileButton.removeAttribute("onclick");	
 	mobileButtonText.innerHTML = "Roll the dice";
@@ -283,13 +334,17 @@ function resetButtons(){
 	Mediacheck(mediaTest);
 }
 
+/*
+	each turn ramsey will move on the board within his row.
+
+*/
 function moveRamsey(){
 	var possibleChildnodes = [1, 3, 5, 7, 9];
 	var ramseyRoll = Math.floor((Math.random() * 5));	
 	var ramseyRow = document.getElementById('ramseysFloor');
 	var currentRamsey = document.querySelectorAll('.ramsey')[0];
 	var res = possibleChildnodes[ramseyRoll];
-	if (currentRamsey == ramseyRow.childNodes[res]) {
+	if (currentRamsey == ramseyRow.childNodes[res]) { //<- if the same tile is rolled, then it will run itself again.
 		moveRamsey();
 	}else{
 		currentRamsey.className = "tile";
@@ -298,25 +353,10 @@ function moveRamsey(){
 		checkTile();
 	}	
 }
-function Move_player(){
-	for (i = 0; i < counter; i++){		
-		var currentTile = player.parentNode;
-		var currentRow= currentTile.parentNode;
-		var nextTile = currentTile.nextSibling.nextSibling;
-		if (nextTile == null) {
-			var nextRow = currentRow.previousSibling.previousSibling;
-			nextRow.firstChild.nextSibling.appendChild(player);
-			console.log(player.parentNode.className);
-		}
-		else {
-		nextTile.appendChild(player);
-		console.log(player.parentNode);
-		}		
-	}
-	if (counter !== 6) {
-		turn++
-	}	
+
+
+// sends a victory item with the value of the player id to the session storage and directs the user to the victory page.
+function victory(){	
+	sessionStorage.setItem('victory', player.id);
+	window.location.href = "victory.html";
 }
-	
-	
-	

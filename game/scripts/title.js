@@ -1,6 +1,4 @@
-function Redirect(){
-	window.location.href = "character_select.html";
-}
+//writes the number of players to the sessionstorage depending on what button is clicked.
 function onePlayer(){
 	sessionStorage.setItem("players", "1");
 	window.location.href = "character_select.html";
