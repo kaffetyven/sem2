@@ -6,12 +6,13 @@
   background-size: cover;
 }
 .body--victory{
-	background: url(../backgrounds/victory.jpg) no-repeat center right fixed; 
+	background: url(../backgrounds/victory.jpg) no-repeat top center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
+
 @font-face {
     font-family: logo;
     src: url(../fonts/NECKROMANCER-Regular.ttf);

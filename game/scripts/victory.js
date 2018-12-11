@@ -17,7 +17,7 @@ function loadVictory(){
 		var str = winnerObject.imgUrl;		
 		var res = str.split("game/");
 		victoryImg.src = res[1];
-		clearMemory();
+		//clearMemory();
 	}
 
 }
