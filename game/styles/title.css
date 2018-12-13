@@ -1,11 +1,10 @@
 h1{
 	margin-bottom: 10px;
 }
-
 .intro_text{
 	text-align: center;
 	color:white;
-	margin-top: 10px;
+	margin-top: 20px;
 	margin-bottom: 60px;
 	font-size:18pt;
 }
@@ -30,8 +29,10 @@ h1{
 }
 @media only screen and (min-width: 1024px) {
   .menu{
-
   	flex-direction: row;
   	justify-content: space-evenly;
-  }  
+  }
+  .intro_text{
+  	margin-top: 40px;
+  }
 }

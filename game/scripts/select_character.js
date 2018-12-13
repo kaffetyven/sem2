@@ -10,8 +10,7 @@ function loadPlayers(){
 		window.location.href = "index.html";
 	} 
 	else{
-		playerIndex = sessionStorage.getItem("players");
-		//console.log(playerIndex);
+		playerIndex = sessionStorage.getItem("players");		
 	}
 }
 
@@ -40,21 +39,18 @@ function Player(playerIndex, name, imgUrl, tokenUrl) {
 	are sent to the session storage.
 	It also creates a modal within the card to make sure you have not clicked a card by mistake.
 */ 
-function selectCard(target){
-	//console.log(target);
+function selectCard(target){	
 	Cancel();
 	var playerName = target.querySelectorAll(".card__name")[0].innerHTML;
 	var playerHouse = "";
 	var playerImg = target.querySelectorAll("img")[0].src;
-	var cardHouse = target.querySelectorAll("#"+playerName.replace(/ /g,'')+"__house")[0].innerHTML;
-	
+	var cardHouse = target.querySelectorAll("#"+playerName.replace(/ /g,'')+"__house")[0].innerHTML;	
 	for (let i in localHouseData){
 		if (cardHouse.includes(localHouseData[i].name)) {
 			playerHouse = localHouseData[i].imgUrl;
 		} 
 	}
-	var addPlayer = new Player(currentCharacter, playerName, playerImg, playerHouse);
-	console.log(addPlayer);
+	var addPlayer = new Player(currentCharacter, playerName, playerImg, playerHouse);	
 	sessionStorage.setItem("player"+currentCharacter, JSON.stringify(addPlayer));
 
 	var modal = document.createElement('div');
@@ -67,9 +63,7 @@ function selectCard(target){
 	}
 	else{
 		modalText.innerHTML = "You have selected "+playerName+" as player"+currentCharacter+", continue?";
-	}
-
-	
+	}	
 	var modalMenu = document.createElement('div');
 	modalMenu.className = "modal__menu";
 	var modalElementFirst = document.createElement('div');
@@ -87,19 +81,16 @@ function selectCard(target){
 	modal.appendChild(modalText);
 	modal.appendChild(modalMenu);
 	target.appendChild(modal);
-	target.removeAttribute("onclick");
-	
+	target.removeAttribute("onclick");	
 }
 
 // this function removes the current modal and resets the onclick attribute of the card that was displaying the modal.
 function Cancel(){
 	var currentModal = document.querySelectorAll('.modal')[0];
-	if (currentModal == null) {
-		console.log("cant find modal");
+	if (currentModal == null) {		
 		return
 	}
-	else{
-		
+	else{		
 		var parent = currentModal.parentNode;
 		setTimeout(function(){
 			parent.setAttribute("onclick", "selectCard(this)");	
@@ -112,7 +103,6 @@ function Cancel(){
 	This function will remove any selected cards so that you cant have 2 of the same characters playing.
 	if all characters have been selected it will take you to the game page.
 */
-
 function Continue(){
 	if (playerIndex == 2) {
 		if (currentCharacter == 1){

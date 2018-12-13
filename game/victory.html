@@ -9,7 +9,6 @@
 	<script src="scripts/fireworks.js" defer></script>
 </head>
 <body>
-
 	<h2 class="header">Congratulations!</h2>
 	<div class="victory_card">
 		<div class="container">
@@ -22,7 +21,7 @@
 				</div>
 				<div class="button__container" id="desktop">
 					<div>
-						<a class="button">Play again</a>
+						<a class="button" onclick="retry()">Play again</a>
 					</div>
 					<div>
 						<a class="button" onclick="mainMenu()">Main Menu</a>
@@ -32,27 +31,13 @@
 		</div>
 		<div class="button__container" id="mobile">
 			<div>
-				<a class="button">Play again</a>
+				<a class="button" onclick="retry()">Play again</a>
 			</div>
 			<div>
 				<a class="button" onclick="mainMenu()">Main Menu</a>
 			</div>
 		</div>		
-	</div>
-	<div class="impact" style="display: none;">
-		<div class="impactRel">
-			<div class="particle"></div>
-			<div class="particle"></div>
-			<div class="particle"></div>
-			<div class="particle"></div>
-			<div class="particle"></div>
-			<div class="particle"></div>
-			<div class="particle"></div>
-			<div class="particle"></div>
-			<div class="particle"></div>
-			<div class="particle"></div>
-		</div>
-	</div>
+	</div>	
 <div class="bg"></div>
 </body>
 </html>

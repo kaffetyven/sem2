@@ -21,8 +21,6 @@ var addCard = new Card("?name=Theon+Greyjoy", "characters/theon.png", "icons/gre
 var addCard = new Card("?name=Arya+Stark", "characters/arya.png", "icons/stark.png",);
 var addCard = new Card("?name=Cersei+Lannister", "characters/cersei.png", "icons/lannister.png",);
 
-
-
 /*
 	i use a for loop to iterate the the array of objects and fetches the characters that i want then
 	build the cards with text information from the api along with img src from the objects.
@@ -35,10 +33,7 @@ for (let i in localCardData){
 	  })
 	  .then(function(myJson) {	  	
 	    if(myJson[0].name == "Daenerys Targaryen"){ //<- there are two Daenerys Targaryen in the API
-	    	//console.log(myJson[1]);
-	    	//console.log(localCardData[i]);
-	    	//console.log(myJson[1].titles[1]);
-
+	    	
 	    	var cardImg = document.createElement("img");
 	    	cardImg.src = localCardData[i].imgUrl;
 	    	
@@ -69,8 +64,7 @@ for (let i in localCardData){
 			var makeId = myJson[1].name + "__house";
 			var houseId = makeId.replace(/ /g,'');
 			cardHouse.id = houseId;
-			cardHouse.innerHTML = "loading"; // <- the House information will be using a different fetch call.	
-	    	
+			cardHouse.innerHTML = "loading"; // <- the House information will be using a different fetch call.	    	
 
 			cardIcon.appendChild(cardIconImg);
 			cardText.appendChild(cardTitle);
@@ -81,11 +75,9 @@ for (let i in localCardData){
 	    	myCard.appendChild(cardImg);
 	    	myCard.appendChild(cardBottom);
 	    	
-			cardContainer.appendChild(myCard);    	
-	    	
+			cardContainer.appendChild(myCard);	    	
 
 	    	getHouse(myJson[1].allegiances[0], houseId); //<- calls the get house function with 2 parameters
-
 	    }
 	    else{ //<- this code will apply to all cards exept Daenerys Targaryen.
 	    	var cardImg = document.createElement("img");
@@ -117,8 +109,7 @@ for (let i in localCardData){
 			} 
 			else{
 				cardTitle.innerHTML = "Title: " + myJson[0].titles[0];
-			}			
-
+			}
 			var cardHouse = document.createElement('p');
 			var makeId = myJson[0].name + "__house";
 			var houseId = makeId.replace(/ /g,'');
@@ -134,18 +125,16 @@ for (let i in localCardData){
 	    	myCard.appendChild(cardImg);
 	    	myCard.appendChild(cardBottom);
 	    	
-			cardContainer.appendChild(myCard); 	 	
-	    	
+			cardContainer.appendChild(myCard);	    	
 
 	    	if(myJson[0].allegiances.length > 1){ // Runs if the characters have more than 1 house to select the right one.
 	    		getHouse(myJson[0].allegiances[1], houseId);
 	    	}
 	    	else{getHouse(myJson[0].allegiances[0], houseId)}
 	    }	    	    
-	});
-	//console.log(name);
-		
+	});		
 }
+
 // this function will fetch the house information based on the parameters sent from the for loop.
 function getHouse(x, y){
 	fetch(x)
@@ -153,13 +142,8 @@ function getHouse(x, y){
 	    return response.json();    
 	  })
 	  .then(function(myJson) {	  	
-	    var houseName = myJson.name;
-	    //console.log(houseName);
+	    var houseName = myJson.name;	    
 	    var test = document.querySelectorAll("#"+y);
-	    test[0].innerHTML = "House: " + houseName;
-
-	     
+	    test[0].innerHTML = "House: " + houseName;	     
 	});
 }
-
-

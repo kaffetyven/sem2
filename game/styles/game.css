@@ -42,6 +42,11 @@ p{
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
+.trapbox{
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 .trap__text{
   color:white;
   padding:20px;
@@ -50,6 +55,7 @@ p{
 .ramsey_img_container{
   padding:10px;
   display: none;
+  max-width: 200px;
 }
 .status{
   justify-content: space-around;
@@ -102,8 +108,7 @@ p{
 }
 .tile{
   height:50px;
-  width:50px;
-  border: solid red 1px;
+  width:50px;  
   margin:4px;
   background-color: #414042;
   font-family: header;
@@ -116,12 +121,14 @@ p{
   background-image: url(../asset/trap.png);
   background-position: center;
   background-size: contain;
+  border: solid red 1px;
 }
 .ramsey{
   background-image: url(../asset/ramsey.png);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  border: solid red 1px;
 }
 .player{
   position: absolute;  
@@ -146,9 +153,13 @@ p{
   position: absolute;
   left:0;
 }
+
 @media only screen and (min-width: 700px) {
   .gameboard{
     max-width: 700px;
+  }
+  .dice__container{
+    margin-top: 100px;
   }
   .tile{
     max-width: 700px;
@@ -170,7 +181,19 @@ p{
     max-width: 500px;
     padding:10px;
   }
+  .trap__text{
+    font-size: 18pt;
+    margin-top: 80px;
+  }
+  .trapbox{
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .ramsey_img_container{
+    margin-top: 60px;
+  }
 }
+
 @media only screen and (min-width: 1024px) {
   .gameboard{
     max-width: 600px;
@@ -179,7 +202,7 @@ p{
     max-width: 700px;
     height:80px;
     width:80px;
-    margin:10px;
+    margin:8px;
     font-size: 16pt;
   }
   .player{
@@ -195,15 +218,19 @@ p{
     max-width: 600px;
     margin:0 auto;
     align-items: center;
-  }
-  .button{
-    
-  }
+  }  
   #mobile__button{
     display: none;
   }
   #desktop__button{
     display: flex;
     margin: 0;
+  }
+  .dice__container{
+    margin-top: 80px;
+  }
+  .trap__text{
+    font-size: 18pt;
+    margin-top: 80px;
   }
 }

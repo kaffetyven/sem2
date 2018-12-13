@@ -21,8 +21,8 @@ var checkpoint2= document.getElementById("checkpoint2");
 var checkpoint3= document.getElementById("checkpoint3");
 var hasRamseyMoved = false;
 var hasPlayerMoved = false;
-var goaltest = document.getElementById('test');
 window.addEventListener("load", loadTokens);
+var customstart = document.querySelectorAll('.ramsey')[0];
 
 //loads the correct tokens from the sessionStorage objects or refers you to the index if there are none.
 function loadTokens(){
@@ -37,7 +37,7 @@ function loadTokens(){
 	playerOneToken.src=playerOne.tokenUrl;
 	playerOneToken.className = "player"+" player1";
 	playerOneToken.id = "player1";
-	goaltest.appendChild(playerOneToken);
+	start.appendChild(playerOneToken);
 	if (playerIndex == 2) {
 		playerTwo = JSON.parse(sessionStorage.getItem("player2"));
 		var playerTwoToken = document.createElement('img');
@@ -53,17 +53,15 @@ function loadTokens(){
 		}
 		playerTwoToken.className = "player"+" player2";
 		playerTwoToken.id= "player2";
-		goaltest.appendChild(playerTwoToken);
+		start.appendChild(playerTwoToken);
 
 	}
 	setPlayer();
 }
 
 //this function determines what token is the current player based on the global turn variable
-function setPlayer(){
-	//console.log(turn);
-	if (playerIndex == 1){
-		//console.log("its 1 player");
+function setPlayer(){	
+	if (playerIndex == 1){		
 		player = document.querySelectorAll(".player1")[0];
 		statusText.innerHTML = "Its your turn";
 	}else{
@@ -111,10 +109,9 @@ function Dice(){
 }
 
 //Displays what the player has rolled and displays the buttons again with a new onclick attribute.
-function Continue(){
-	//console.log("finished");
+function Continue(){	
 	statusText.innerHTML = "You have rolled: "+counter;
-	if (counter == 6) {
+	if (counter == 6 && playerIndex == 2) {
 		statusText.innerHTML = "You have Rolled: " +counter +"<br> Double Turn!"
 	}
 	else{
@@ -130,17 +127,17 @@ function Continue(){
 	desktopButton.style.display = "flex";
 	Mediacheck(mediaTest);
 }
+
 //a simple function to check what button to remove.
 function Mediacheck(x){
 	if (x.matches){
-		desktopButton.style.display = "none";
-		//console.log("match");
+		desktopButton.style.display = "none";		
 	}
 	else{
-		mobileButton.style.display = "none";
-		//console.log("does not match");
+		mobileButton.style.display = "none";		
 	}
 }
+
 //removes the dice modal.
 function ModalAway(){
 	mobileButton.style.display= "none";
@@ -158,8 +155,7 @@ var steps = 0;
 */
 function Footsteps(){
 	statusText.innerHTML = "Moving...";
-	player.style.display = "none";
-	//console.log(steps);
+	player.style.display = "none";	
 	steps = 0;
 	var stepper = setInterval(function(){
 		if (steps==0) { //<- the first step creates the footstep element
@@ -176,15 +172,15 @@ function Footsteps(){
 				var nextRow = currentRow.previousSibling.previousSibling;
 				if (nextRow.className == "row reverse") {
 					newStepImg.src="asset/stepleft.png";
-				}else{newStepImg.src = "asset/stepright.png"}
+				}else{
+					newStepImg.src = "asset/stepright.png"
+				}
 				nextRow.firstChild.nextSibling.appendChild(newStepImg);
 			}
 			else{ //<- if the first step is a victory
 				if (nextTile.id === "goal") {
-					clearInterval(stepper);
-					console.log("victory from step1");
-					victory();
-					
+					clearInterval(stepper);					
+					victory();					
 				}
 				else{
 					nextTile.appendChild(newStepImg);
@@ -207,8 +203,7 @@ function Footsteps(){
 			}
 			else{ //<-- checks for victory
 				if (nextTile.id === "goal") {
-					clearInterval(stepper);
-					console.log("victory from far");
+					clearInterval(stepper);					
 					victory();
 				}
 				else{
@@ -227,8 +222,7 @@ function Footsteps(){
 			checkTile();			
 		}		
 		steps += 1;
-	}, 1000);
-	
+	}, 1000);	
 }
 /*
 	This function checks the tile that the player has landed on.
@@ -243,8 +237,7 @@ function Footsteps(){
 */
 function checkTile(){	
 	if (player.parentNode.className == "tile trap" || player.parentNode.className == "tile ramsey"){
-		if (player.parentNode.id == "trap1") {
-			//console.log("trap1");
+		if (player.parentNode.id == "trap1") {			
 			statusText.innerHTML = "You have walked in a Trap!";
 			trapText.innerHTML = "You woke up the prison guard! <br> He sends you back to the dungeon cell!";
 			start.appendChild(player);
@@ -252,26 +245,22 @@ function checkTile(){
 		if (player.parentNode.id == "trap2") {
 			statusText.innerHTML = "You have walked in a Trap!";
 			trapText.innerHTML = "Ramsey's dogs have found you! <br> They chase you back to the cellar.";
-			checkpoint1.appendChild(player);
-			//console.log("trap2");
+			checkpoint1.appendChild(player);			
 		}
 		if (player.parentNode.id == "trap3") {
 			statusText.innerHTML = "You have walked in a Trap!";
 			trapText.innerHTML = "You have been spotted by patroling guards! <br> You rush back down to the cellar to hide!";
 			checkpoint2.appendChild(player);
-			//console.log("trap3");
 		}
 		if (player.parentNode.id == "trap4") {
 			statusText.innerHTML = "You have walked in a Trap!";
 			trapText.innerHTML = "You failed to sneak past the towerguard! <br> He pushes you off the towerwall and you fall to the courtyard";			
-			checkpoint3.appendChild(player);
-			//console.log("trap4");
+			checkpoint3.appendChild(player);			
 		}
 		if (player.parentNode.className == "tile ramsey") {
 		statusText.innerHTML = "Ramsey has found you!";
 		trapImg.style.display="block";
-		trapText.innerHTML= "Hello Reek! <br> You thought you could escape didn't you? <br> He tosses you back into the dungeon cell.";		
-		//console.log("its ramsey");
+		trapText.innerHTML= "Hello Reek! <br> You thought you could escape didn't you? <br> Ramsey tosses you back into the dungeon cell.";		
 		start.appendChild(player);	
 		}
 
@@ -298,6 +287,7 @@ function checkTile(){
 		}		
 	}	
 }
+
 // removes the trap modal and check if ramsey has moved.
 function TrapAway(){
 	trapImg.style.display = "none";
@@ -307,9 +297,9 @@ function TrapAway(){
 	}
 	else{
 		moveRamsey();
-	}
-	
+	}	
 }
+
 // changes the turn if unless a 6 has been rolled, and resets the player and ramsey booleans.
 function endTurn(){	
 	if (counter !== 6) {
@@ -318,9 +308,9 @@ function endTurn(){
 	hasRamseyMoved = false;
 	hasPlayerMoved = false;
 	resetButtons();
-	setPlayer();
-	
+	setPlayer();	
 }
+
 //Sets the onclick attribute on the buttons back to the original state.
 function resetButtons(){
 	mobileButton.removeAttribute("onclick");	
@@ -353,7 +343,6 @@ function moveRamsey(){
 		checkTile();
 	}	
 }
-
 
 // sends a victory item with the value of the player id to the session storage and directs the user to the victory page.
 function victory(){	

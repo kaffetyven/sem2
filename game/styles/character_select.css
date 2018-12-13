@@ -16,8 +16,7 @@
   display: flex;
   justify-content: none;
   max-width: 1024px;
-  flex-wrap: wrap;
-  
+  flex-wrap: wrap;  
 }
 .card{
   max-width: 266px;
@@ -76,9 +75,9 @@
 @media only screen and (max-width: 1025px) {
   .card__container{
     justify-content: center;
-  }
-  
+  }  
 }
+
 @media only screen and (max-width: 600px) {
   .card{
     max-width: 320px;
